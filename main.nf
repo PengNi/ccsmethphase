@@ -245,11 +245,6 @@ process EnvCheck {
     RUN ALL WORKFLOWS
 ========================================================================================
 */
-
-//
-// WORKFLOW: Execute a single named workflow for the pipeline
-// See: https://github.com/nf-core/rnaseq/issues/619
-//
 workflow {
     if ( !file(params.genome).exists() )
         exit 1, "genome reference path does not exist, check params: --genome ${params.genome}"

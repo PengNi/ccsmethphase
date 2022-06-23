@@ -1,6 +1,6 @@
 # ccsmethphase
 
-A demo nextflow pipeline of methylation detection using long reads
+Methylatino phasing using PacBio CCS reads
 
 
 ## Contents
@@ -47,5 +47,3 @@ sudo yum install graphviz
 
 ## Acknowledgements
   - Some code were taken from [nanome](https://github.com/TheJacksonLaboratory/nanome) and [nf-core](https://github.com/nf-core).
-
-developement: [nextflow_develop.md](docs/nextflow_develop.md)

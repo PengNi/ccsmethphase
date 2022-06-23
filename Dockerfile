@@ -1,6 +1,7 @@
 # Set the base image to Ubuntu and NVIDIA GPU from https://hub.docker.com/r/nvidia/cuda
 # or from https://ngc.nvidia.com/catalog/containers/nvidia:cuda/tags
-FROM nvidia/cuda:11.0-cudnn8-runtime-ubuntu18.04
+# 11.0, 11.0.3, 10.2, 10.1, 9.2 for torch 1.7.0
+FROM nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04
 
 # Author and maintainer
 MAINTAINER Peng Ni <543943952@qq.com>
@@ -32,13 +33,18 @@ ENV PATH /opt/conda/bin:$PATH
 
 # Create the environment:
 COPY environment.yml /
-RUN conda env create --name ${DNAME} --file=environment.yml && conda clean -a
+RUN conda env create --name ${DNAME} --file=environment.yml
+
+## install clair3
+## https://github.com/HKU-BAL/Clair3/blob/main/Dockerfile
+#COPY environment-clair3.yml /
+#RUN conda env create --name clair3 --file=environment-clair3.yml
+
+RUN conda clean -a
 
 # Make RUN commands use the new environment
 # name need to be the same with the above ${DNAME}
 SHELL ["conda", "run", "-n", "ccsmethphase", "/bin/bash", "-c"]
-
-# install clair3
 
 # Set env path into PATH
 ENV PATH /opt/conda/envs/${DNAME}/bin:$PATH
