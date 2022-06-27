@@ -15,7 +15,7 @@ Methylation phasing using PacBio CCS reads
   - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
 
 
-  - (2) Install nextflow (version>=21.10.6).
+  - (2) Install [nextflow](https://www.nextflow.io/) (version>=21.10.6).
 
 ```sh
 # create a new environment and install nextflow in it
@@ -107,3 +107,4 @@ nextflow run ~/path/to/ccsmethphase \
 
 ## TODO
   - input format -> `group_id    type(hifi/subreads)    file_abs_path`
+  - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet

@@ -120,9 +120,11 @@ if ( params.genome.contains('hg') || params.genome.contains('GRCh38') || params.
     }
 }
 
+
 // set utils dirs
 projectDir = workflow.projectDir
 ch_utils = Channel.value("${projectDir}/utils")
+
 
 // set files used for evaluation
 if ( params.eval_methcall ) {
@@ -131,6 +133,7 @@ if ( params.eval_methcall ) {
 } else {
     bs_bedmethyl_file = Channel.empty()
 }
+
 
 // generate input files, and send into Channels for pipelines
 if ( params.input.endsWith(".filelist.txt") ) {
@@ -255,11 +258,13 @@ workflow {
             } else {
                 postalign_bam.set{phased_bam}
             }
+        } else {
+            postalign_bam.set{phased_bam}
+        }
 
-            // ccsmeth call_freq
-            if ( params.run_call_mods && params.run_call_freq ) {
-                CCSMETH_call_freq_bam(phased_bam, EnvCheck.out.reference_genome_dir, ch_utils)
-            }
+        // ccsmeth call_freq
+        if ( params.run_call_mods && params.run_call_freq ) {
+            CCSMETH_call_freq_bam(phased_bam, EnvCheck.out.reference_genome_dir, ch_utils)
         }
     }
 }

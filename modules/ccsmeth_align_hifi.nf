@@ -9,7 +9,7 @@ process CCSMETH_align_hifi {
     publishDir "${params.outdir}/${params.dsname}/align",
         mode: "copy",
         pattern: "${to_map_bam.baseName}.${params.aligner}.bam*",
-        enabled: !params.run_whatshap
+        enabled: !params.run_clair3 || !params.run_whatshap
 
     input:
     tuple path(to_map_bam), path(to_map_bai)

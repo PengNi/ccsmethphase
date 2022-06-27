@@ -9,7 +9,7 @@ process SAMTOOLS_merge_sortedbams {
     publishDir "${params.outdir}/${params.dsname}/align",
         mode: "copy",
         pattern: "${params.dsname}.post_${params.aligner}.merged_size${num}.bam*",
-        enabled: !params.run_whatshap
+        enabled: !params.run_clair3 || !params.run_whatshap
 
     input:
     path bams
