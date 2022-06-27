@@ -21,7 +21,7 @@ Methylation phasing using PacBio CCS reads
 # create a new environment and install nextflow in it
 conda create -n nextflow -c conda-forge -c bioconda nextflow
 
-# or install nextflow in an existing environment
+# OR, install nextflow in an existing environment
 conda install -c conda-forge -c bioconda nextflow
 ```
 
@@ -41,7 +41,10 @@ sudo yum install graphviz
 
 
 ## Usage
-ccsmethphase accepts PacBio subreads.bam (or hifi.bam), genome reference, and ccsmeth models as input.
+ccsmethphase takes PacBio subreads.bam (or hifi.bam), genome reference, and ccsmeth models as input.
+
+Input format of pacbio_reads:
+  - .
 
 ### Option 1. Run with singularity (recommended)
 
@@ -52,18 +55,18 @@ If it is the first time you run with singularity (e.g. using `-profile singulari
 conda activate nextflow
 
 # run longmethyl, this cmd will cache a singularity image before processing the data
-nextflow run ~/path/to/ccsmethphase \
+nextflow run /path/to/ccsmethphase \
     --dsname test \
-    --genome chm13v2.0.fa \
-    --input "some.subreads.bam" \
-    --ccsmeth_cm_model ccsmeth_cm_model.ckpt \
+    --genome /path/to/ref.fa \
+    --input "/path/to/some.subreads.bam" \
+    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity
 # or, run longmethyl using GPU, set CUDA_VISIBLE_DEVICES
 CUDA_VISIBLE_DEVICES=0 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-    --genome chm13v2.0.fa \
-    --input "some.subreads.bam" \
-    --ccsmeth_cm_model ccsmeth_cm_model.ckpt \
+    --genome /path/to/ref.fa \
+    --input "/path/to/some.subreads.bam" \
+    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity
 ```
 
@@ -73,16 +76,16 @@ The downloaded `.img` file(s) can be re-used then, without being downloaded agai
 # this time nextflow will not download the singularity images again.
 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-    --genome chm13v2.0.fa \
-    --input "some_other.subreads.bam" \
-    --ccsmeth_cm_model ccsmeth_cm_model.ckpt \
+    --genome /path/to/ref.fa \
+    --input "/path/to/some_other.subreads.bam" \
+    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity
 # or specify the directory where the images are in
 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-    --genome chm13v2.0.fa \
-    --input "some_other.subreads.bam" \
-    --ccsmeth_cm_model ccsmeth_cm_model.ckpt \
+    --genome /path/to/ref.fa \
+    --input "/path/to/some_other.subreads.bam" \
+    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity \
     --singularity_cache local_singularity_cache
 ```
@@ -93,9 +96,9 @@ Try `-resume` to re-run a modified/failed job to save time:
 ```shell
 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-    --genome chm13v2.0.fa \
-    --input "some.subreads.bam" \
-    --ccsmeth_cm_model ccsmeth_cm_model.ckpt \
+    --genome /path/to/ref.fa \
+    --input "/path/to/some.subreads.bam" \
+    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity \
     -resume
 ```
