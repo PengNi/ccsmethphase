@@ -1,6 +1,6 @@
 # Set the base image to Ubuntu and NVIDIA GPU from https://hub.docker.com/r/nvidia/cuda
 # or from https://ngc.nvidia.com/catalog/containers/nvidia:cuda/tags
-# 11.0, 11.0.3, 10.2, 10.1, 9.2 for torch 1.7.0
+# 11.0, 11.0.3, 10.2, 10.1, 9.2 for torch 1.7.0; 10.2 is ok for 1.7.0-1.11.0
 FROM nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04
 
 # Author and maintainer

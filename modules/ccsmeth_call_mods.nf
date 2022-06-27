@@ -1,4 +1,4 @@
-process CCSMETH_call_mods {
+process CCSMETH_call_mods_denovo {
     tag "${hifi_bam.baseName}"
 
     label 'process_high'

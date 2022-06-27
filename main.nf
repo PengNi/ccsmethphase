@@ -219,8 +219,8 @@ workflow {
     // call_mods
     modbam = Channel.empty()
     if ( params.run_call_mods ) {
-        CCSMETH_call_mods(hifi_bam, EnvCheck.out.ccsmeth_cm_model_ckpt, ch_utils)
-        CCSMETH_call_mods.out.ccsmeth_modbam.set{modbam}
+        CCSMETH_call_mods_denovo(hifi_bam, EnvCheck.out.ccsmeth_cm_model_ckpt, ch_utils)
+        CCSMETH_call_mods_denovo.out.ccsmeth_modbam.set{modbam}
     } else {
         hifi_bam.set{modbam}
     }
