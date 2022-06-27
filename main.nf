@@ -168,7 +168,7 @@ summary['input']            = params.input
 include { EnvCheck                     } from './modules/envcheck'
 include { SAMTOOLS_index_bam           } from './modules/samtools_index_bam'
 include { CCSMETH_pbccs_call_hifi      } from './modules/ccsmeth_pbccs_call_hifi'
-include { CCSMETH_call_mods            } from './modules/ccsmeth_call_mods'
+include { CCSMETH_call_mods_denovo     } from './modules/ccsmeth_call_mods'
 include { CCSMETH_align_hifi           } from './modules/ccsmeth_align_hifi'
 include { SAMTOOLS_merge_sortedbams    } from './modules/samtools_merge_sortedbams'
 include { CLAIR3_hifi                  } from './modules/clair3_hifi'
