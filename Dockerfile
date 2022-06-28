@@ -31,20 +31,21 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.s
 # Adding conda to PATH
 ENV PATH /opt/conda/bin:$PATH
 
-# Create the environment:
+# Create the environment
 COPY environment.yml /
-RUN conda env create --name ${DNAME} --file=environment.yml
+RUN conda env create --name ${DNAME} --file=environment.yml && conda clean -a
 
-## install clair3
+## install clair3 environment
 ## https://github.com/HKU-BAL/Clair3/blob/main/Dockerfile
 #COPY environment-clair3.yml /
-#RUN conda env create --name clair3 --file=environment-clair3.yml
-
-RUN conda clean -a
+#RUN conda env create --name clair3 --file=environment-clair3.yml && conda clean -a
 
 # Make RUN commands use the new environment
 # name need to be the same with the above ${DNAME}
 SHELL ["conda", "run", "-n", "ccsmethphase", "/bin/bash", "-c"]
+
+# clear pip cache
+RUN pip cache purge
 
 # Set env path into PATH
 ENV PATH /opt/conda/envs/${DNAME}/bin:$PATH
