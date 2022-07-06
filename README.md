@@ -37,9 +37,7 @@ git clone https://github.com/PengNi/ccsmethphase.git
   - (5) [optional] Install graphviz.
 
 ```sh
-sudo apt install graphviz
-# or
-sudo yum install graphviz
+conda install -c conda-forge graphviz
 ```
 
 
@@ -128,3 +126,5 @@ nextflow run ~/path/to/ccsmethphase \
 ## TODO
   - input format -> `group_id    type(hifi/subreads)    file_abs_path`
   - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet
+  - make demo-data and its config as a `test` profile
+  - complete --help/-h option
