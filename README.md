@@ -69,19 +69,19 @@ conda activate nextflow
 # this cmd will cache a singularity image first if there is none
 # set --run_call_hifi to false, as the input is hifi.bam
 # set --include_all_ctgs to true to include all contigs,
-#   default only [chr][1-22+XY]
+#   default false, means only [chr][1-22+XY] included
 nextflow run /path/to/ccsmethphase \
     --dsname test \
-    --genome chr20_demo.fa \
-    --input "hg002.chr20_demo.hifi.bam" \
+    --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
+    --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
     --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity
 # or, set CUDA_VISIBLE_DEVICES to use GPU
 CUDA_VISIBLE_DEVICES=0 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-   --genome chr20_demo.fa \
-    --input "hg002.chr20_demo.hifi.bam" \
+    --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
+    --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
     --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity
@@ -112,8 +112,8 @@ Try `-resume` to re-run a modified/failed job to save time:
 ```shell
 nextflow run ~/path/to/ccsmethphase \
     --dsname test \
-    --genome chr20_demo.fa \
-    --input "hg002.chr20_demo.hifi.bam" \
+    --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
+    --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
     --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity \
