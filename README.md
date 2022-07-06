@@ -76,7 +76,7 @@ nextflow run /path/to/ccsmethphase \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity
 # or, set CUDA_VISIBLE_DEVICES to use GPU
-CUDA_VISIBLE_DEVICES=0 nextflow run ~/path/to/ccsmethphase \
+CUDA_VISIBLE_DEVICES=0 nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
@@ -88,14 +88,14 @@ CUDA_VISIBLE_DEVICES=0 nextflow run ~/path/to/ccsmethphase \
 The downloaded `.img` file(s) can be re-used then, without being downloaded again:
 
 ```sh
-nextflow run ~/path/to/ccsmethphase \
+nextflow run /path/to/ccsmethphase \
     --dsname test2 \
     --genome /path/to/some-other/genome/fa \
     --input "/path/to/some-other.subreads.bam" \
     --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity
 # or specify the directory where the images are
-nextflow run ~/path/to/ccsmethphase \
+nextflow run /path/to/ccsmethphase \
     --dsname test2 \
     --genome /path/to/some-other/genome/fa \
     --input "/path/to/some-other.subreads.bam" \
@@ -108,7 +108,7 @@ nextflow run ~/path/to/ccsmethphase \
 Try `-resume` to re-run a modified/failed job to save time:
 
 ```shell
-nextflow run ~/path/to/ccsmethphase \
+nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
