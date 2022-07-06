@@ -6,7 +6,7 @@ process CCSMETH_call_mods_denovo {
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/mods_call",
+    publishDir "${params.outdir}/${params.dsname}/bam",
         mode: "copy",
         pattern: "${hifi_bam.baseName}.ccsmeth.modbam.bam*",
         enabled: !params.run_align

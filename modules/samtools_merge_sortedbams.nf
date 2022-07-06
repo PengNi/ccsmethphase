@@ -6,7 +6,7 @@ process SAMTOOLS_merge_sortedbams {
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/align",
+    publishDir "${params.outdir}/${params.dsname}/bam",
         mode: "copy",
         pattern: "${params.dsname}.post_${params.aligner}.merged_size${num}.bam*",
         enabled: !params.run_clair3 || !params.run_whatshap

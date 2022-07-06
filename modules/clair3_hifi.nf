@@ -6,7 +6,7 @@ process CLAIR3_hifi {
     conda     (params.enable_conda ? "${projectDir}/environment-clair3.yml" : null)
     container (params.use_docker ? "${params.clair3_docker_name}" : "${params.clair3_singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/clair3",
+    publishDir "${params.outdir}/${params.dsname}/vcf",
         mode: "copy",
         pattern: "*.vcf*"
 
@@ -32,6 +32,7 @@ process CLAIR3_hifi {
         --platform="hifi" \
         --model_path="${params.clair3_hifi_model}" \
         --output=\${clair3_out} \
+        ${params.include_all_ctgs ? "--include_all_ctgs" : ""} \
         > \${clair3_out}.log 2>&1
 
     if [[ -f \${clair3_out}/merge_output.vcf.gz ]]; then

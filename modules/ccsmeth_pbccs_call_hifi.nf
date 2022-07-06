@@ -6,7 +6,7 @@ process CCSMETH_pbccs_call_hifi {
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/pbccs_hifi",
+    publishDir "${params.outdir}/${params.dsname}/bam",
         mode: "copy",
         pattern: "${subreads_bam.baseName}.hifi.bam*"
 
