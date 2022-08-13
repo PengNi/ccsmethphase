@@ -40,9 +40,10 @@ process CCSMETH_call_mods_denovo {
             --output ${hifi_bam.baseName}.ccsmeth \
             --model_file ${ccsmeth_cm_model} --model_type attbigru2s --seq_len 21 \
             --is_npass yes --is_qual no --is_map no --is_stds no \
-            --mode denovo --threads ${cores} --threads_call ${gpu_cores} \
+            --mode denovo --threads ${cores} \
+            --rm_per_readsite \
             > ${hifi_bam.baseName}.ccsmeth.call_mods.log 2>&1
-        rm ${hifi_bam.baseName}.ccsmeth.per_readsite.tsv
+        # rm ${hifi_bam.baseName}.ccsmeth.per_readsite.tsv
     elif [[ \${commandType} == "gpu" ]]; then
         ## GPU version command
         python utils/memusg ccsmeth call_mods --input ${hifi_bam} \
@@ -50,8 +51,9 @@ process CCSMETH_call_mods_denovo {
             --model_file ${ccsmeth_cm_model} --model_type attbigru2s --seq_len 21 \
             --is_npass yes --is_qual no --is_map no --is_stds no \
             --mode denovo --threads ${cores} --threads_call ${gpu_cores} \
+            --rm_per_readsite \
             > ${hifi_bam.baseName}.ccsmeth.call_mods.log 2>&1
-        rm ${hifi_bam.baseName}.ccsmeth.per_readsite.tsv
+        # rm ${hifi_bam.baseName}.ccsmeth.per_readsite.tsv
     else
         echo "### error value for commandType=\${commandType}"
         exit 255

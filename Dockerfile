@@ -15,7 +15,7 @@ ARG DNAME="ccsmethphase"
 # ENV PATH ${CUDA_HOME}/bin:$PATH
 # ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:${CUDA_HOME}/compat/:${CUDA_HOME}/lib64/
 
-ARG BUILD_PACKAGES="wget apt-transport-https procps git curl"
+ARG BUILD_PACKAGES="wget apt-transport-https procps git curl git-lfs"
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=${DEBIAN_FRONTEND} apt-get -q install --yes ${BUILD_PACKAGES} && \

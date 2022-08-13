@@ -128,3 +128,5 @@ nextflow run /path/to/ccsmethphase \
   - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet
   - make demo-data and its config as a `test` profile
   - complete --help/-h option
+  - default model in docker container
+  - add quality-control process for ccs data?
