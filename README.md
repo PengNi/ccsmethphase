@@ -43,18 +43,16 @@ conda install -c conda-forge graphviz
 
 ## Demo data
 Check [ccsmethphase/demo](/demo) for demo data:
-  - _hg002.chr20_demo.hifi.bam_: HG002 demo hifi reads which align to human genome chr20:10000000-10100000.
+  - _hg002.chr20_demo.hifi.bam_: HG002 demo hifi reads which are aligned to human genome chr20:10000000-10100000.
   - _chr20_demo.fa_: reference sequence of human chr20:10000000-10100000.
   - _hg002_bsseq_chr20_demo.bed_: HG002 BS-seq results of region chr20:10000000-10100000.
 
-Check also [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth CpG models. 
-
 
 ## Usage
-ccsmethphase takes PacBio subreads.bam (or hifi.bam), genome reference, and ccsmeth models as input.
+ccsmethphase takes PacBio subreads.bam (or hifi.bam), and genome reference as input.
 
-Input format of pacbio_reads:
-  - .
+If you are using `-profile conda` to run this workflow, ccsmeth models should be set as input too. Check [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth 5mCpG models. 
+
 
 ### Option 1. Run with singularity (recommended)
 
@@ -72,7 +70,6 @@ nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
-    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity
 # or, set CUDA_VISIBLE_DEVICES to use GPU
@@ -80,7 +77,6 @@ CUDA_VISIBLE_DEVICES=0 nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
-    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity
 ```
@@ -92,14 +88,12 @@ nextflow run /path/to/ccsmethphase \
     --dsname test2 \
     --genome /path/to/some-other/genome/fa \
     --input "/path/to/some-other.subreads.bam" \
-    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity
 # or specify the directory where the images are
 nextflow run /path/to/ccsmethphase \
     --dsname test2 \
     --genome /path/to/some-other/genome/fa \
     --input "/path/to/some-other.subreads.bam" \
-    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     -profile singularity \
     --singularity_cache local_singularity_cache
 ```
@@ -112,7 +106,6 @@ nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input "/path/to/ccsmethphase/demo/hg002.chr20_demo.hifi.bam" \
-    --ccsmeth_cm_model /path/to/ccsmeth_cm_model.ckpt \
     --run_call_hifi false --include_all_ctgs true \
     -profile singularity \
     -resume
@@ -128,5 +121,5 @@ nextflow run /path/to/ccsmethphase \
   - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet
   - make demo-data and its config as a `test` profile
   - complete --help/-h option
-  - default model in docker container
+  - ~~default model in docker container~~
   - add quality-control process for ccs data?

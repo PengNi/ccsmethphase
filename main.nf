@@ -165,7 +165,9 @@ summary['input']            = params.input
 
 
 // import modules
-include { EnvCheck                     } from './modules/envcheck'
+include { CheckGenome                  } from './modules/envcheck'
+include { CheckCMModel                 } from './modules/envcheck'
+include { CheckAGModel                 } from './modules/envcheck'
 include { SAMTOOLS_index_bam           } from './modules/samtools_index_bam'
 include { CCSMETH_pbccs_call_hifi      } from './modules/ccsmeth_pbccs_call_hifi'
 include { CCSMETH_call_mods_denovo     } from './modules/ccsmeth_call_mods'
@@ -187,20 +189,48 @@ workflow {
 
     genome_ch = Channel.fromPath(genome_path, type: 'any', checkIfExists: true)
 
+    // TODO: there are case that user doesn't use default model path, but
+    // TODO: sets his own model path the same as DEFAULT_CCSMETH_CM_MODEL.
+    // TODO: In this case, this code will still use the DEFAULT_CCSMETH_CM_MODEL,
+    // TODO: which maybe not appropriate.
+    // TODO: ccsmeth_cm_model/ccsmeth_ag_model both has this issue
+    // TODO: [check also envcheck.nf, ccsmeth_call_mods.nf, ccsmeth_call_freq_bam.nf]
     if ( !params.run_call_mods ) {
         // use null placeholder
         ccsmeth_cm_model = Channel.value("${projectDir}/utils/null2")
     }
     else {
-        if ( !file(params.ccsmeth_cm_model.toString()).exists() ) {
+        if ( params.ccsmeth_cm_model == params.DEFAULT_CCSMETH_CM_MODEL ) {
             ccsmeth_cm_model = Channel.value("${projectDir}/utils/null2")
+        }
+        else if ( !file(params.ccsmeth_cm_model.toString()).exists() ) {
+            exit 1, "ccsmeth_cm_model does not exist, check params: --ccsmeth_cm_model ${params.ccsmeth_cm_model}"
         }
         else {
             ccsmeth_cm_model = Channel.fromPath(params.ccsmeth_cm_model, type: 'file', checkIfExists: true)
         }
     }
 
-    EnvCheck(ccsmeth_cm_model, genome_ch)
+    if ( params.run_call_mods && params.run_call_freq && params.cf_mode == "aggregate" ) {
+        if ( params.ccsmeth_ag_model == params.DEFAULT_CCSMETH_AG_MODEL ) {
+            ccsmeth_ag_model = Channel.value("${projectDir}/utils/null3")
+        }
+        else if ( !file(params.ccsmeth_ag_model.toString()).exists() ) {
+            exit 1, "ccsmeth_ag_model does not exist, check params: --ccsmeth_ag_model ${params.ccsmeth_ag_model}"
+        }
+        else {
+            ccsmeth_ag_model = Channel.fromPath(params.ccsmeth_ag_model, type: 'file', checkIfExists: true)
+        }
+    }
+    else {
+        // use null placeholder
+        ccsmeth_ag_model = Channel.value("${projectDir}/utils/null3")
+    }
+
+    // add fake_output/fake_input to prevent process-parallel breakdown?
+    CheckGenome(genome_ch)
+    CheckCMModel(ccsmeth_cm_model, CheckGenome.out.fake_output)
+    CheckAGModel(ccsmeth_ag_model, CheckGenome.out.fake_output)
 
     // call_hifi
     hifi_bam = Channel.empty()
@@ -219,7 +249,7 @@ workflow {
     // call_mods
     modbam = Channel.empty()
     if ( params.run_call_mods ) {
-        CCSMETH_call_mods_denovo(hifi_bam, EnvCheck.out.ccsmeth_cm_model_ckpt, ch_utils)
+        CCSMETH_call_mods_denovo(hifi_bam, CheckCMModel.out.ccsmeth_cm_model_ckpt, ch_utils)
         CCSMETH_call_mods_denovo.out.ccsmeth_modbam.set{modbam}
     } else {
         hifi_bam.set{modbam}
@@ -227,7 +257,7 @@ workflow {
 
     // align and post_align
     if ( params.run_align ) {
-        CCSMETH_align_hifi(modbam, EnvCheck.out.reference_genome_dir, ch_utils)
+        CCSMETH_align_hifi(modbam, CheckGenome.out.reference_genome_dir, ch_utils)
 
         // merge, sort, index all aligned bam
         if ( params.postalign_combine ) {
@@ -247,12 +277,12 @@ workflow {
 
         // clair3
         if ( params.run_clair3 ) {
-            CLAIR3_hifi(postalign_bam, EnvCheck.out.reference_genome_dir)
+            CLAIR3_hifi(postalign_bam, CheckGenome.out.reference_genome_dir)
 
             // whatshap
             if ( params.run_whatshap ) {
                 CLAIR3_hifi.out.clair3_vcf.join(postalign_bam).set{vcf_and_aligned_bam}
-                WHATSHAP_snv_phase_haplotag(vcf_and_aligned_bam, EnvCheck.out.reference_genome_dir)
+                WHATSHAP_snv_phase_haplotag(vcf_and_aligned_bam, CheckGenome.out.reference_genome_dir)
                 WHATSHAP_snv_phase_haplotag.out.phased_vcf_bam.map({ it -> [it[0], it[3], it[4]] })
                                                               .set{phased_bam}
             } else {
@@ -264,7 +294,8 @@ workflow {
 
         // ccsmeth call_freq
         if ( params.run_call_mods && params.run_call_freq ) {
-            CCSMETH_call_freq_bam(phased_bam, EnvCheck.out.reference_genome_dir, ch_utils)
+            CCSMETH_call_freq_bam(phased_bam, CheckGenome.out.reference_genome_dir,
+                                  CheckAGModel.out.ccsmeth_ag_model_ckpt, ch_utils)
         }
     }
 }
