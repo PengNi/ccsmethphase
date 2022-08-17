@@ -227,10 +227,9 @@ workflow {
         ccsmeth_ag_model = Channel.value("${projectDir}/utils/null3")
     }
 
-    // add fake_output/fake_input to prevent process-parallel breakdown?
     CheckGenome(genome_ch)
-    CheckCMModel(ccsmeth_cm_model, CheckGenome.out.fake_output)
-    CheckAGModel(ccsmeth_ag_model, CheckGenome.out.fake_output)
+    CheckCMModel(ccsmeth_cm_model)
+    CheckAGModel(ccsmeth_ag_model)
 
     // call_hifi
     hifi_bam = Channel.empty()

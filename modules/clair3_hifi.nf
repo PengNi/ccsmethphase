@@ -24,7 +24,7 @@ process CLAIR3_hifi {
     """
     date; hostname; pwd
 
-    clair3_out="clair3_out_${params.dsname}"
+    clair3_out="clair3_out_${align_bam.baseName}"
     /opt/bin/run_clair3.sh \
         --bam_fn=${align_bam} \
         --ref_fn=${genome_dir}/${params.genome_file} \

@@ -65,7 +65,6 @@ process CheckCMModel {
 
     input:
     path ccsmeth_cm_model
-    each path(fake_input)
 
     output:
     path "ccsmeth_call_mods_model.ckpt",           emit: ccsmeth_cm_model_ckpt, optional: true
@@ -102,7 +101,6 @@ process CheckAGModel {
 
     input:
     path ccsmeth_ag_model
-    each path(fake_input)
 
     output:
     path "ccsmeth_aggregate_model.ckpt",           emit: ccsmeth_ag_model_ckpt, optional: true
