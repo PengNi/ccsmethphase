@@ -39,16 +39,17 @@ process CCSMETH_call_freq_bam {
         --output ${phased_bam.baseName}.freq \
         --bed --sort --threads ${cores} \
         --call_mode ${params.cf_mode} ${params.cf_mode=='aggregate' ? '--aggre_model \${model_file}' : ''} \
+        ${params.cf_bonus_options!='' && params.cf_bonus_options!=true ? params.cf_bonus_options : ''} \
         > ${phased_bam.baseName}.freq.call_freqb.log 2>&1
 
-    if [[ "${params.cf_mode}" == "aggregate" && ${params.cf_supple_count} == true ]] ; then
+    if [[ "${params.cf_mode}" == "aggregate" && ${params.cf_always_count} == true ]] ; then
         python utils/memusg ccsmeth call_freqb --input_bam ${phased_bam} \
         --ref ${genome_dir}/${params.genome_file} \
         --output ${phased_bam.baseName}.freq \
         --bed --sort --threads ${cores} \
         --call_mode count \
+        ${params.cf_bonus_options!='' && params.cf_bonus_options!=true ? params.cf_bonus_options : ''} \
         > ${phased_bam.baseName}.freq.call_freqb_count.log 2>&1
     fi
-
     """
 }

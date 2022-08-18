@@ -226,7 +226,7 @@ workflow {
         subreads: it[2] == "subreads"
         other: true
     }.set{pacbio_bam_splited}
-    pacbio_bam_splited.other.view(it -> "item ${it[0]} - ${it[1]} - ${it[2]} - ${it[3]} is neither hifi reads nor subreads, please reedit it!")
+    pacbio_bam_splited.other.view(it -> "item ${it[0]} - ${it[1]} - ${it[2]} - ${it[3]} is neither hifi reads nor subreads, please re-edit it!")
     // TODO: how to make the following run only if there are >0 items in pacbio_bam_splited.subreads/pacbio_bam_splited.hifi?
     // TODO: maybe combine CCSMETH_pbccs_call_hifi and SAMTOOLS_index_bam into one process?
     CCSMETH_pbccs_call_hifi(pacbio_bam_splited.subreads.map{it -> [it[0], it[1], it[3]]}, ch_utils)

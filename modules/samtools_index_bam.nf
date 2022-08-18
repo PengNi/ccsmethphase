@@ -19,5 +19,4 @@ process SAMTOOLS_index_bam {
 
     samtools index -@ ${cores} ${bam}
     """
-
 }

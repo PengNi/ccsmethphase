@@ -36,5 +36,4 @@ process SAMTOOLS_merge_sortedbams {
     samtools index -@ ${cores} \${name_prefix}.bam
 
     """
-
 }
