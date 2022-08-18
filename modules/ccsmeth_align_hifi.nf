@@ -6,18 +6,18 @@ process CCSMETH_align_hifi {
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/bam",
-        mode: "copy",
-        pattern: "${to_map_bam.baseName}.${params.aligner}.bam*",
-        enabled: !params.run_clair3 || !params.run_whatshap
+//     publishDir "${params.outdir}/${params.dsname}/bam",
+//         mode: "copy",
+//         pattern: "${to_map_bam.baseName}.${params.aligner}.bam*",
+//         enabled: !params.run_clair3 || !params.run_whatshap
 
     input:
-    tuple path(to_map_bam), path(to_map_bai)
+    tuple val(group_id), val(sample_id), path(to_map_bam), path(to_map_bai)
     each path(genome_dir)
     path ch_utils
 
     output:
-    tuple val("${to_map_bam.baseName}.${params.aligner}"),
+    tuple val(group_id), val(sample_id),
         path("${to_map_bam.baseName}.${params.aligner}.bam"),
         path("${to_map_bam.baseName}.${params.aligner}.bam.bai"),
         emit: align_bam

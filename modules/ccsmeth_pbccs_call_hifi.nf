@@ -8,14 +8,15 @@ process CCSMETH_pbccs_call_hifi {
 
     publishDir "${params.outdir}/${params.dsname}/bam",
         mode: "copy",
-        pattern: "${subreads_bam.baseName}.hifi.bam*"
+        pattern: "${subreads_bam.baseName}.hifi.bam*",
+        enabled: !params.run_call_mods && !params.run_align
 
     input:
-    path subreads_bam
+    tuple val(group_id), val(sample_id), path(subreads_bam)
     path ch_utils
 
     output:
-    tuple path("${subreads_bam.baseName}.hifi.bam"), path("${subreads_bam.baseName}.hifi.bam.bai"),
+    tuple val(group_id), val(sample_id), path("${subreads_bam.baseName}.hifi.bam"), path("${subreads_bam.baseName}.hifi.bam.bai"),
         emit: hifi_bambai
 
     script:

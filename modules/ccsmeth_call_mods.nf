@@ -12,12 +12,12 @@ process CCSMETH_call_mods_denovo {
         enabled: !params.run_align
 
     input:
-    tuple path(hifi_bam), path(hifi_bai)
+    tuple val(group_id), val(sample_id), path(hifi_bam), path(hifi_bai)
     each path(ccsmeth_cm_model)
     path ch_utils
 
     output:
-    tuple path("${hifi_bam.baseName}.ccsmeth.modbam.bam"), path("${hifi_bam.baseName}.ccsmeth.modbam.bam.bai"),
+    tuple val(group_id), val(sample_id), path("${hifi_bam.baseName}.ccsmeth.modbam.bam"), path("${hifi_bam.baseName}.ccsmeth.modbam.bam.bai"),
         emit: ccsmeth_modbam
 
     script:

@@ -6,16 +6,16 @@ process CLAIR3_hifi {
     conda     (params.enable_conda ? "${projectDir}/environment-clair3.yml" : null)
     container (params.use_docker ? "${params.clair3_docker_name}" : "${params.clair3_singularity_name}")
 
-    publishDir "${params.outdir}/${params.dsname}/vcf",
+    publishDir "${params.outdir}/${params.dsname}/vcf/clair3_called",
         mode: "copy",
         pattern: "*.vcf*"
 
     input:
-    tuple val(bam_id), path(align_bam), path(align_bai)
+    tuple val(group_id), val(sample_id), path(align_bam), path(align_bai)
     each path(genome_dir)
 
     output:
-    tuple val(bam_id),
+    tuple val(group_id), val(sample_id),
         path("${align_bam.baseName}.clair3_merge.vcf.gz"),
         path("${align_bam.baseName}.clair3_merge.vcf.gz.tbi"), emit: clair3_vcf
 

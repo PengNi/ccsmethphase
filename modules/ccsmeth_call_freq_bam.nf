@@ -11,13 +11,13 @@ process CCSMETH_call_freq_bam {
         pattern: "*bed"
 
     input:
-    tuple val(bam_id), path(phased_bam), path(phased_bai)
+    tuple val(group_id), val(sample_id), path(phased_bam), path(phased_bai)
     each path(genome_dir)
     each path(ccsmeth_ag_model)
     path ch_utils
 
     output:
-    tuple val(bam_id),
+    tuple val(group_id), val(sample_id),
         path("*bed"),
         emit: ccsmeth_haped_bed
 
@@ -40,5 +40,15 @@ process CCSMETH_call_freq_bam {
         --bed --sort --threads ${cores} \
         --call_mode ${params.cf_mode} ${params.cf_mode=='aggregate' ? '--aggre_model \${model_file}' : ''} \
         > ${phased_bam.baseName}.freq.call_freqb.log 2>&1
+
+    if [[ "${params.cf_mode}" == "aggregate" && ${params.cf_supple_count} == true ]] ; then
+        python utils/memusg ccsmeth call_freqb --input_bam ${phased_bam} \
+        --ref ${genome_dir}/${params.genome_file} \
+        --output ${phased_bam.baseName}.freq \
+        --bed --sort --threads ${cores} \
+        --call_mode count \
+        > ${phased_bam.baseName}.freq.call_freqb_count.log 2>&1
+    fi
+
     """
 }

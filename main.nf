@@ -136,26 +136,14 @@ if ( params.eval_methcall ) {
 
 
 // generate input files, and send into Channels for pipelines
-if ( params.input.endsWith(".filelist.txt") ) {
-    // list of files in filelist.txt
+if ( params.input.endsWith(".txt") || params.input.endsWith(".tsv") ) {
     Channel.fromPath( params.input, checkIfExists: true )
-        .splitCsv(header: false)
-        .map {
-            if (!file(it[0]).exists())  {
-                log.warn "File not exists: ${it[0]}, check file list: ${params.input}"
-            } else {
-                return file(it[0])
-            }
-        }
-        .set{ pacbio_bam }
-} else if ( params.input.contains('*') || params.input.contains('?') ) {
-    // match all files in the folder, note: input must use '', prevent expand in advance
-    // such as --input '/fastscratch/liuya/nanome/NA12878/NA12878_CHR22/input_chr22/*'
-    Channel.fromPath(params.input, type: 'any', checkIfExists: true)
+        .splitCsv(header: true, sep: "\t", strip: true)
+        .map{ it -> [it.Group_ID, it.Sample_ID, it.Type.toLowerCase(), file(it.Path)] }
+        .filter{ it[3].exists() }
         .set{ pacbio_bam }
 } else {
-    // For single file/wildcard matched files
-    Channel.fromPath( params.input, checkIfExists: true ).set{ pacbio_bam }
+    exit 1, "--input must be in tsv format, see ccsmethphase/demo/input_sheet.tsv for more information!"
 }
 
 
@@ -231,19 +219,21 @@ workflow {
     CheckCMModel(ccsmeth_cm_model)
     CheckAGModel(ccsmeth_ag_model)
 
-    // call_hifi
+    // input_bam -> call_hifi or index
     hifi_bam = Channel.empty()
-    if ( params.run_call_hifi ) {
-        CCSMETH_pbccs_call_hifi(pacbio_bam, ch_utils)
-        CCSMETH_pbccs_call_hifi.out.hifi_bambai.set{hifi_bam}
-    } else {
-        SAMTOOLS_index_bam(pacbio_bam)
-        SAMTOOLS_index_bam.out.bambai.set{pacbio_bambai}
-        pacbio_bam.map({file -> [file.baseName, file]})
-                  .join(pacbio_bambai)
-                  .map({it -> [it[1], it[2]]})
-                  .set{hifi_bam}
-    }
+    pacbio_bam.branch {
+        hifi: it[2] == "hifi" || it[2] == "ccs"
+        subreads: it[2] == "subreads"
+        other: true
+    }.set{pacbio_bam_splited}
+    pacbio_bam_splited.other.view(it -> "item ${it[0]} - ${it[1]} - ${it[2]} - ${it[3]} is neither hifi reads nor subreads, please reedit it!")
+    // TODO: how to make the following run only if there are >0 items in pacbio_bam_splited.subreads/pacbio_bam_splited.hifi?
+    // TODO: maybe combine CCSMETH_pbccs_call_hifi and SAMTOOLS_index_bam into one process?
+    CCSMETH_pbccs_call_hifi(pacbio_bam_splited.subreads.map{it -> [it[0], it[1], it[3]]}, ch_utils)
+    CCSMETH_pbccs_call_hifi.out.hifi_bambai.set{hifi_bam_called}
+    SAMTOOLS_index_bam(pacbio_bam_splited.hifi.map{it -> [it[0], it[1], it[3]]})
+    SAMTOOLS_index_bam.out.bambai.set{hifi_bam_indexed}
+    hifi_bam_indexed.concat(hifi_bam_called).set{hifi_bam}
 
     // call_mods
     modbam = Channel.empty()
@@ -258,37 +248,25 @@ workflow {
     if ( params.run_align ) {
         CCSMETH_align_hifi(modbam, CheckGenome.out.reference_genome_dir, ch_utils)
 
-        // merge, sort, index all aligned bam
-        if ( params.postalign_combine ) {
-
-            def criteria = multiMapCriteria {
-                bam: [it[0], it[1]]
-                bai: [it[0], it[2]]
-            }
-            CCSMETH_align_hifi.out.align_bam.multiMap(criteria).set{aligned_bambai}
-
-            SAMTOOLS_merge_sortedbams(aligned_bambai.bam.map({it -> it[1]}).collect(),
-                                      aligned_bambai.bai.map({it -> it[1]}).collect())
-            SAMTOOLS_merge_sortedbams.out.merged_bam.set{postalign_bam}
-        } else {
-            CCSMETH_align_hifi.out.align_bam.set{postalign_bam}
-        }
+        // merge, sort, index all aligned bam by sample_id
+        SAMTOOLS_merge_sortedbams(CCSMETH_align_hifi.out.align_bam.groupTuple(by: [0,1]))
+        SAMTOOLS_merge_sortedbams.out.merged_bam.set{merged_bam}
 
         // clair3
         if ( params.run_clair3 ) {
-            CLAIR3_hifi(postalign_bam, CheckGenome.out.reference_genome_dir)
+            CLAIR3_hifi(merged_bam, CheckGenome.out.reference_genome_dir)
 
             // whatshap
             if ( params.run_whatshap ) {
-                CLAIR3_hifi.out.clair3_vcf.join(postalign_bam).set{vcf_and_aligned_bam}
+                CLAIR3_hifi.out.clair3_vcf.join(merged_bam, by: [0,1]).set{vcf_and_aligned_bam}
                 WHATSHAP_snv_phase_haplotag(vcf_and_aligned_bam, CheckGenome.out.reference_genome_dir)
-                WHATSHAP_snv_phase_haplotag.out.phased_vcf_bam.map({ it -> [it[0], it[3], it[4]] })
+                WHATSHAP_snv_phase_haplotag.out.phased_vcf_bam.map( {it -> [it[0], it[1], it[4], it[5]]} )
                                                               .set{phased_bam}
             } else {
-                postalign_bam.set{phased_bam}
+                merged_bam.set{phased_bam}
             }
         } else {
-            postalign_bam.set{phased_bam}
+            merged_bam.set{phased_bam}
         }
 
         // ccsmeth call_freq

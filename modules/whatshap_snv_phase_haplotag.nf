@@ -1,5 +1,5 @@
 process WHATSHAP_snv_phase_haplotag {
-    tag "${bam_id}"
+    tag "${group_id}.${sample_id}"
 
     label 'process_medium'
 
@@ -10,16 +10,16 @@ process WHATSHAP_snv_phase_haplotag {
         mode: "copy",
         pattern: "*.bam*"
 
-    publishDir "${params.outdir}/${params.dsname}/vcf",
+    publishDir "${params.outdir}/${params.dsname}/vcf/whatshap_phased",
         mode: "copy",
         pattern: "*.vcf*"
 
     input:
-    tuple val(bam_id), path(clair3_vcf), path(clair3_vcf_tbi), path(input_bam), path(input_bai)
+    tuple val(group_id), val(sample_id), path(clair3_vcf), path(clair3_vcf_tbi), path(input_bam), path(input_bai)
     each path(genome_dir)
 
     output:
-    tuple val(bam_id),
+    tuple val(group_id), val(sample_id),
         path("*.SNV_PASS_whatshap.vcf.gz"),
         path("*.SNV_PASS_whatshap.vcf.gz.tbi"),
         path("${input_bam.baseName}.SNV_PASS_whatshap.bam"),

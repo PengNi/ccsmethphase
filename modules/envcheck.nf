@@ -2,7 +2,7 @@ process CheckGenome {
     tag "CheckGenome"
     errorStrategy 'terminate'
 
-    label 'process_low'
+    label 'process_medium'
 
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
