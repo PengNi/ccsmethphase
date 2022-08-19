@@ -27,10 +27,15 @@ process SAMTOOLS_merge_sortedbams {
 
     ## WARN: when there are 2 or more bam files, bams is a list, size() returns number of items of the list
     ## WARN: but when there is only 1 bam file, bams is the bam file, size() returns the size of the file
-    if [[ ${params.run_call_mods} == true ]]; then
-        name_prefix="${group_id}.${sample_id}.hifi.ccsmeth.modbam.${params.aligner}.merged_size${num}"
+    if [[ ${num} -gt 2000 ]] ; then
+        msize=1
     else
-        name_prefix="${group_id}.${sample_id}.hifi.${params.aligner}.merged_size${num}"
+        msize=${num}
+    fi
+    if [[ ${params.run_call_mods} == true ]]; then
+        name_prefix="${group_id}.${sample_id}.hifi.ccsmeth.modbam.${params.aligner}.merged_size\${msize}"
+    else
+        name_prefix="${group_id}.${sample_id}.hifi.${params.aligner}.merged_size\${msize}"
     fi
     samtools merge -@ ${cores} \${name_prefix}.bam ${bams}
     samtools index -@ ${cores} \${name_prefix}.bam
