@@ -2,6 +2,7 @@ process CCSMETH_call_mods_denovo {
     tag "${hifi_bam.baseName}"
 
     label 'process_high'
+    label 'process_hpcgpu'
 
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
