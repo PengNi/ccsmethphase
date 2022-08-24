@@ -45,7 +45,7 @@ RUN conda env create --name ${DNAME} --file=environment.yml && conda clean -a
 SHELL ["conda", "run", "-n", "ccsmethphase", "/bin/bash", "-c"]
 
 # clear pip cache
-RUN pip cache purge
+# RUN pip cache purge
 
 # download ccsmeth model
 RUN mkdir -p /opt/models/ccsmeth && \
