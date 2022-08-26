@@ -59,8 +59,8 @@ The information of PacBio reads files should be organized into a tsv file, like 
 | Group_ID | Sample_ID | Type | Path |
 | -------- | --------- | ---- | ---- |
 | G1       | HG002_demo | hifi | ./demo/hg002.chr20_demo.hifi.bam |
-| G1       | HG002_demo | hifi | _path of another flowcell bam file for HG002_demo_ |
-| G1       | HG003 | hifi | _path of a bam file for HG003_ |
+| G1       | HG002_demo | subreads | /path/to/another/flowcell/reads/of/HG002_demo.subreads.bam |
+| G1       | HG003 | hifi | /path/to/reads/of/HG003.hifi.bam |
 
 - **Group_ID**: For group comparation, values can be like _control_, _case_, or anything else.
 - **Sample_ID**: The name of the sample sequenced.
