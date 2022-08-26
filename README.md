@@ -52,6 +52,8 @@ Check [ccsmethphase/demo](/demo) for demo data:
 ## Usage
 ccsmethphase takes files of PacBio reads (subreads.bam or hifi.bam), and genome reference as input.
 
+# ![deepsignal-pypi](docs/imgs/ccsmethphase-tubemap.png)
+
 The information of PacBio reads files should be organized into a tsv file, like [input_sheet.tsv](/demo/input_sheet.tsv) in demo data:
 
 | Group_ID | Sample_ID | Type | Path |
