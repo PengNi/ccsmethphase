@@ -54,7 +54,7 @@ ccsmethphase takes files of PacBio reads (subreads.bam or hifi.bam), and genome 
 
 # ![deepsignal-pypi](docs/imgs/ccsmethphase-tubemap.png)
 
-The information of PacBio reads files should be organized into a tsv file, like [input_sheet.tsv](/demo/input_sheet.tsv) in demo data:
+The information of PacBio reads files should be organized into a tsv file as [input_sheet.tsv](/demo/input_sheet.tsv) in demo data. Following is an example of multiple PacBio bam files. **Note bam files of the same Sample_ID will be merged before Clair3 and the downstream analysis.**
 
 | Group_ID | Sample_ID | Type | Path |
 | -------- | --------- | ---- | ---- |
