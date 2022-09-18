@@ -45,13 +45,13 @@ RUN conda env create --name ${DNAME} --file=environment.yml && conda clean -a
 SHELL ["conda", "run", "-n", "ccsmethphase", "/bin/bash", "-c"]
 
 # clear pip cache
-# RUN pip cache purge
+RUN pip cache purge
 
 # download ccsmeth model
 RUN mkdir -p /opt/models/ccsmeth && \
     cd /opt/models/ccsmeth && \
     wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v1.ckpt && \
-    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v1.ckpt && \
+    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2.ckpt && \
     ls -lh
 
 # Set env path into PATH
