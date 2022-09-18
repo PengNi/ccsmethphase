@@ -1,7 +1,7 @@
 process WHATSHAP_snv_phase_haplotag {
     tag "${group_id}.${sample_id}"
 
-    label 'process_medium'
+    label 'process_lmedium'
 
     conda     (params.enable_conda ? "${projectDir}/environment.yml" : null)
     container (params.use_docker ? "${params.docker_name}" : "${params.singularity_name}")
