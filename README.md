@@ -140,3 +140,4 @@ nextflow run /path/to/ccsmethphase \
   - complete --help/-h option
   - ~~default model in docker container~~
   - add quality-control process for ccs data?
+  - add DSS-2.44.0, update docker/env.yml/readme/image
