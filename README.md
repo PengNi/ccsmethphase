@@ -139,4 +139,5 @@ nextflow run /path/to/ccsmethphase \
   - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet
   - complete --help/-h option
   - ~~default model in docker container~~
-  - add quality-control process for ccs data?
+  - add quality-control process for ccs data? 
+  - add DSS-2.44.0, update docker/env.yml/readme/image
