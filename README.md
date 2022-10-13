@@ -131,12 +131,12 @@ nextflow run /path/to/ccsmethphase \
 
 
 ## Acknowledgements
-  - Some code were taken from [nanome](https://github.com/TheJacksonLaboratory/nanome) and [nf-core](https://github.com/nf-core).
+  - Some code were referenced from [nanome](https://github.com/TheJacksonLaboratory/nanome) and [nf-core](https://github.com/nf-core).
 
 
 ## TODO
   - ~~input format -> group_id    type(hifi/subreads)    file_abs_path~~
-  - have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine; did not test docker on gpu/cpu-in-gpu-machine yet
+  - ~~have tested docker on cpu, singularity on cpu/gpu/cpu-in-gpu-machine;~~ did not test docker on gpu/cpu-in-gpu-machine yet
   - complete --help/-h option
   - ~~default model in docker container~~
   - add quality-control process for ccs data? 
