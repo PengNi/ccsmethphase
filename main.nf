@@ -164,6 +164,7 @@ include { SAMTOOLS_merge_sortedbams    } from './modules/samtools_merge_sortedba
 include { CLAIR3_hifi                  } from './modules/clair3_hifi'
 include { WHATSHAP_snv_phase_haplotag  } from './modules/whatshap_snv_phase_haplotag'
 include { CCSMETH_call_freq_bam        } from './modules/ccsmeth_call_freq_bam'
+include { DSS_callDMR                  } from './modules/dss_dmr'
 
 
 /*
@@ -273,6 +274,11 @@ workflow {
         if ( params.run_call_mods && params.run_call_freq ) {
             CCSMETH_call_freq_bam(phased_bam, CheckGenome.out.reference_genome_dir,
                                   CheckAGModel.out.ccsmeth_ag_model_ckpt, ch_utils)
+
+            if ( params.run_dss && params.run_whatshap ) {
+                // only if there are hp1.bed and hp2.bed
+                DSS_callDMR(CCSMETH_call_freq_bam.out.ccsmeth_haped_bed, ch_utils)
+            }
         }
     }
 }
