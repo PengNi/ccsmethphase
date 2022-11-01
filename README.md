@@ -132,6 +132,7 @@ nextflow run /path/to/ccsmethphase \
 
 ## Acknowledgements
   - Some code were referenced from [nanome](https://github.com/TheJacksonLaboratory/nanome) and [nf-core](https://github.com/nf-core).
+  - Code for ASM detection using DSS were referenced from [NanoMethPhase](https://github.com/vahidAK/NanoMethPhase) of Akbari _et al._
 
 
 ## TODO
@@ -140,4 +141,5 @@ nextflow run /path/to/ccsmethphase \
   - complete --help/-h option
   - ~~default model in docker container~~
   - add quality-control process for ccs data? 
-  - add DSS-2.44.0, update docker/env.yml/readme/image
+  - ~~add DSS-2.44.0, update docker/env.yml/readme/image~~
+  - report-summary (Rmarkdown->html?)
