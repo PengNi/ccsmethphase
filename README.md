@@ -7,6 +7,7 @@ Methylation phasing using PacBio CCS reads
 * [Installation](#Installation)
 * [Demo data](#Demo-data)
 * [Usage](#Usage)
+* [Outputs](#Outputs)
 * [Acknowledgements](#Acknowledgements)
 * [TODO](#TODO)
 
@@ -50,9 +51,9 @@ Check [ccsmethphase/demo](/demo) for demo data:
 
 
 ## Usage
-ccsmethphase takes files of PacBio reads (subreads.bam or hifi.bam), and genome reference as input.
+ccsmethphase takes files of PacBio reads (subreads.bam or hifi.bam), and a reference genome as input.
 
-# ![deepsignal-pypi](docs/imgs/ccsmethphase-tubemap.png)
+# ![ccsmethphase-tubemap](docs/imgs/ccsmethphase-tubemap.png)
 
 The information of PacBio reads files should be organized into a tsv file, like [input_sheet.tsv](/demo/input_sheet.tsv) in demo data:
 
@@ -67,7 +68,7 @@ The information of PacBio reads files should be organized into a tsv file, like 
 - **Type**: Data type, should be _hifi_ or _subreads_.
 - **Path**: Path of a (flowcell) bam file sequenced using the sample. **Absolute path** recommended.
 
-**NOTE**: If you are using `-profile conda` to run this workflow, ccsmeth models should be set as input too. Check [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth 5mCpG models. 
+**NOTE**: ccsmethphase can be run with conda, docker, and singularity by setting `-profile`. If you are using `-profile conda` to run this workflow, ccsmeth models should be set as input too. Check [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth 5mCpG models. 
 
 
 ### Option 1. Run with singularity (recommended)
