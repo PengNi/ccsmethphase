@@ -2,20 +2,26 @@
 
 Methylation phasing using PacBio CCS reads
 
+# ![ccsmethphase-tubemap](docs/imgs/ccsmethphase-tubemap.png)
+
 
 ## Contents
 * [Installation](#Installation)
 * [Demo data](#Demo-data)
+* [Input](#Input)
 * [Usage](#Usage)
-* [Outputs](#Outputs)
+* [Output](#Output)
 * [Acknowledgements](#Acknowledgements)
 * [TODO](#TODO)
 
 
 ## Installation
 
-  - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
+Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 1 TB disk storage
 
+Recommended OS: Linux
+
+  - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
 
   - (2) Install [nextflow](https://www.nextflow.io/) (version>=21.10.6).
 
@@ -35,6 +41,11 @@ git clone https://github.com/PengNi/ccsmethphase.git
 
   - (4) Install [Docker](https://docs.docker.com/engine/install/) or [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/) if needed.
 
+```sh
+# e.g., install singularity using conda
+conda install -c conda-forge singularity 
+```
+
   - (5) [optional] Install graphviz.
 
 ```sh
@@ -50,10 +61,8 @@ Check [ccsmethphase/demo](/demo) for demo data:
   - _input_sheet.tsv_: Information of the demo PacBio bam file _hg002.chr20_demo.hifi.bam_.
 
 
-## Usage
+## Input
 ccsmethphase takes files of PacBio reads (subreads.bam or hifi.bam), and a reference genome as input.
-
-# ![ccsmethphase-tubemap](docs/imgs/ccsmethphase-tubemap.png)
 
 The information of PacBio reads files should be organized into a tsv file, like [input_sheet.tsv](/demo/input_sheet.tsv) in demo data:
 
@@ -68,30 +77,51 @@ The information of PacBio reads files should be organized into a tsv file, like 
 - **Type**: Data type, should be _hifi_ or _subreads_.
 - **Path**: Path of a (flowcell) bam file sequenced using the sample. **Absolute path** recommended.
 
-**NOTE**: ccsmethphase can be run with conda, docker, and singularity by setting `-profile`. If you are using `-profile conda` to run this workflow, ccsmeth models should be set as input too. Check [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth 5mCpG models. 
+**NOTE**: ccsmethphase can be run with conda, docker, and singularity by setting `-profile`. If you are using `-profile conda` to run this workflow, ccsmeth models should be set as input too. Check [ccsmeth](https://github.com/PengNi/ccsmeth) to get ccsmeth 5mCpG models.
 
 
-### Option 1. Run with singularity (recommended)
+## Usage
+### Parameters (to be completed):
+```text
+--dsname:   job name
+--input:    the tsv file containing information of PacBio reads files
+--genome:   file path of the reference genome
+--include_all_ctgs: "true" or "false". default false, , means only [chr][1-22,X,Y] included.
+-profile:   conda/docker/singularity, test
+```
+
+### Example 1. Run with singularity (recommended)
 
 If it is the first time you run with singularity (e.g. using `-profile singularity`), the following cmd will cache the dafault singularity image (`--singularity_name` and/or `--clair3_singularity_name`) to the `--singularity_cache` directory (default: `local_singularity_cache`) first. There will be `.img` file(s) in the `--singularity_cache` directory.
 
 **NOTE**: If you are using relative paths of bam files in _input_sheet.tsv_, make sure the relative paths are the right relative paths to the directory you launch the workflow.
 
+For the example data:
 ```sh
 # activate nextflow environment
 conda activate nextflow
 
-# this cmd will cache a singularity image first if there is none
-# set --run_call_hifi to false, as the input is hifi.bam
-# set --include_all_ctgs to true to include all contigs,
-#   default false, means only [chr][1-22+XY] included
+cd /path/to/ccsmethphase
+nextflow run main.nf \
+    --dsname test \
+    -profile singularity,test
+```
+
+The above command is equal to the command following:
+```sh
 nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
     --input /path/to/ccsmethphase/demo/input_sheet.tsv \
     --include_all_ctgs true \
+    --max_cpus 8
+    --max_memory "12.GB"
+    --max_time "6.h"
     -profile singularity
-# or, set CUDA_VISIBLE_DEVICES to use GPU
+```
+
+Try the following cmd to enable GPU:
+```sh
 CUDA_VISIBLE_DEVICES=0 nextflow run /path/to/ccsmethphase \
     --dsname test \
     --genome /path/to/ccsmethphase/demo/chr20_demo.fa \
@@ -100,26 +130,17 @@ CUDA_VISIBLE_DEVICES=0 nextflow run /path/to/ccsmethphase \
     -profile singularity
 ```
 
-The downloaded `.img` file(s) can be re-used then, without being downloaded again:
-
-```sh
-nextflow run /path/to/ccsmethphase \
-    --dsname test2 \
-    --genome /path/to/some/other/genome/fa \
-    --input /path/to/some/other/input_sheet.tsv \
-    -profile singularity
-# or specify the directory where the images are
+The downloaded singularity .img file(s) can be re-used, without being downloaded again:
+```shell
 nextflow run /path/to/ccsmethphase \
     --dsname test2 \
     --genome /path/to/some/other/genome/fa \
     --input /path/to/some/other/input_sheet.tsv \
     -profile singularity \
-    --singularity_cache local_singularity_cache
+    --singularity_cache /path/to/local_singularity_cache
 ```
 
-### Extra 1. Resume a run
 Try `-resume` to re-run a modified/failed job to save time:
-
 ```shell
 nextflow run /path/to/ccsmethphase \
     --dsname test \
@@ -131,7 +152,7 @@ nextflow run /path/to/ccsmethphase \
 ```
 
 
-## Outputs
+## Output
 The output directory should look like the following:
 ```text
 ccsmethphase_results/
@@ -179,3 +200,4 @@ ccsmethphase_results/
   - add quality-control/statistics process for ccs data?
   - ~~add DSS-2.44.0, update docker/env.yml/readme/image~~
   - report-summary (Rmarkdown->html?)
+  - ~~add `test` profile?~~
