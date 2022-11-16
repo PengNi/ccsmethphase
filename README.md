@@ -17,9 +17,9 @@ Methylation phasing using PacBio CCS reads
 
 ## Installation
 
-Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 1 TB disk storage
+Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 4 TB disk storage
 
-Recommended OS: Linux
+Recommended OS: Linux (Ubuntu etc.)
 
   - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
 
