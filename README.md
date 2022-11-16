@@ -21,9 +21,9 @@ Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 4 TB disk stor
 
 Recommended OS: Linux (Ubuntu etc.)
 
-  - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
+- (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
 
-  - (2) Install [nextflow](https://www.nextflow.io/) (version>=21.10.6).
+- (2) Install [nextflow](https://www.nextflow.io/) (version>=21.10.6).
 
 ```sh
 # create a new environment and install nextflow in it
@@ -33,20 +33,20 @@ conda create -n nextflow -c conda-forge -c bioconda nextflow
 conda install -c conda-forge -c bioconda nextflow
 ```
 
-  - (3) Download ccsmethphase from github.
+- (3) Download ccsmethphase from github.
 
 ```sh
 git clone https://github.com/PengNi/ccsmethphase.git
 ```
 
-  - (4) Install [Docker](https://docs.docker.com/engine/install/) or [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/) if needed.
+- (4) Install [Docker](https://docs.docker.com/engine/install/) or [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/) if needed.
 
 ```sh
 # e.g., install singularity using conda
 conda install -c conda-forge singularity 
 ```
 
-  - (5) [optional] Install graphviz.
+- (5) [optional] Install graphviz.
 
 ```sh
 conda install -c conda-forge graphviz
@@ -120,7 +120,7 @@ nextflow run /path/to/ccsmethphase \
     -profile singularity
 ```
 
-Try the following cmd to enable GPU:
+Try the following command to enable GPU:
 ```sh
 CUDA_VISIBLE_DEVICES=0 nextflow run /path/to/ccsmethphase \
     --dsname test \
