@@ -159,20 +159,20 @@ ccsmethphase_results/
 ├── pipeline_info
 └── test
     ├── bam
-    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.bam
-    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.bam.bai
+    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.bam
+    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.bam.bai
     ├── diff_methyl
-    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDML.txt
-    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDMR.autosomes_cf0.2.bed
-    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDMR.txt
+    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDML.txt
+    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDMR.autosomes_cf0.2.bed
+    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp_callDMR.txt
     ├── mods_freq
-    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.all.bed
-    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp1.bed
-    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp2.bed
+    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.all.bed
+    │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp1.bed
+    │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.SNV_PASS_whatshap.freq.aggregate.hp2.bed
     └── vcf
         ├── clair3_called
-        │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.vcf.gz
-        │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.vcf.gz.tbi
+        │   ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.vcf.gz
+        │   └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.vcf.gz.tbi
         └── whatshap_phased
             ├── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.SNV_PASS_whatshap.vcf.gz
             └── G1.HG002_demo.hifi.ccsmeth.modbam.pbmm2.merged_size1.clair3_merge.SNV_PASS_whatshap.vcf.gz.tbi
