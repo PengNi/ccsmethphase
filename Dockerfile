@@ -4,9 +4,9 @@
 FROM nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04
 
 # Author and maintainer
-MAINTAINER Peng Ni <543943952@qq.com>
+# MAINTAINER Peng Ni <543943952@qq.com>
 LABEL description="ccsmethphase" \
-      author="543943952@qq.com"
+      author="Peng Ni <543943952@qq.com>"
 
 ARG DNAME="ccsmethphase"
 
@@ -55,8 +55,8 @@ RUN wget -q https://bioconductor.org/packages/release/bioc/src/contrib/DSS_2.44.
 # download ccsmeth model
 RUN mkdir -p /opt/models/ccsmeth && \
     cd /opt/models/ccsmeth && \
-    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v1.ckpt && \
-    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2.ckpt && \
+    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v2.ckpt && \
+    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt && \
     ls -lh
 
 # Set env path into PATH
