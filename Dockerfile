@@ -48,7 +48,7 @@ SHELL ["conda", "run", "-n", "ccsmethphase", "/bin/bash", "-c"]
 RUN pip cache purge
 
 # add DSS-2.44.0 manually to the env, maybe not neccessary in the future
-RUN wget -q https://bioconductor.org/packages/release/bioc/src/contrib/DSS_2.44.0.tar.gz && \
+RUN wget -q https://bioconductor.org/packages/3.15/bioc/src/contrib/DSS_2.44.0.tar.gz && \
     R CMD INSTALL DSS_2.44.0.tar.gz && \
     rm DSS_2.44.0.tar.gz
 
