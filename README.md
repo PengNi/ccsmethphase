@@ -17,9 +17,9 @@ Methylation phasing using PacBio CCS reads
 
 ## Installation
 
-Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 4 TB disk storage
+Recommended Hardware requirements: 128 GB RAM, 40 CPU processors, 4 TB disk storage, >=8 GB GPU 
 
-Recommended OS: Linux (Ubuntu etc.)
+Recommended OS: Linux (Ubuntu 16.04, CentOS 7, etc.)
 
 - (1) Install conda from [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) if neeeded.
 
@@ -86,7 +86,7 @@ The information of PacBio reads files should be organized into a tsv file, like 
 --dsname:   job name
 --input:    the tsv file containing information of PacBio reads files
 --genome:   file path of the reference genome
---include_all_ctgs: "true" or "false". default false, , means only [chr][1-22,X,Y] included.
+--include_all_ctgs: "true" or "false". default false, means only [chr][1-22,X,Y] included.
 -profile:   conda/docker/singularity, test
 ```
 

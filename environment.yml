@@ -29,4 +29,4 @@ dependencies:
   - r-r.utils>=2.5.0  # for running DSS script
   - bioconductor-dss>=2.42.0  # should be 2.44.0 when 2.44.0 is available in bioconda
   - pip:
-    - ccsmeth>=0.3.2
+    - ccsmeth>=0.3.3
