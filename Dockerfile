@@ -55,8 +55,8 @@ RUN pip cache purge
 # download ccsmeth model
 RUN mkdir -p /opt/models/ccsmeth && \
     cd /opt/models/ccsmeth && \
-    wget -q https://github.com/PengNi/basemods-models/blob/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v2.ckpt && \
-    wget -q https://github.com/PengNi/basemods-models/blob/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt && \
+    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v2.ckpt && \
+    wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt && \
     ls -lh
 
 # Set env path into PATH
