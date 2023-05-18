@@ -53,7 +53,8 @@ RUN pip cache purge
 #     rm DSS_2.44.0.tar.gz
 
 # download ccsmeth model
-RUN mkdir -p /opt/models/ccsmeth && \
+RUN echo '199.232.28.133 raw.githubusercontent.com' | tee -a /etc/hosts && \
+    mkdir -p /opt/models/ccsmeth && \
     cd /opt/models/ccsmeth && \
     wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v2.ckpt && \
     wget -q https://github.com/PengNi/basemods-models/raw/master/ccsmeth/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt && \
