@@ -151,7 +151,6 @@ nextflow run /path/to/ccsmethphase \
     -resume
 ```
 
-
 __Possible issues__:
 
 1. `no space left on device` ERROR
