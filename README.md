@@ -151,6 +151,15 @@ nextflow run /path/to/ccsmethphase \
     -resume
 ```
 
+__Possible issues__:
+
+1. `no space left on device` ERROR
+
+This may be caused by limited space of the `SINGULARITY_TMPDIR` (default `/tmp`) dir. Try setting `SINGULARITY_TMPDIR` to a disk that have enough space in current environment:
+```shell
+export SINGULARITY_TMPDIR=/path/to/another/dir
+```
+
 
 ## Output
 The output directory should look like the following:
