@@ -41,7 +41,7 @@ process DSS_callDMR {
 
     file_prefix=\$(echo \${bed_hp1%1.bed})
 
-    python ~/tools/pacbio_5mc/scripts/hap/call_dmr_dss_nanomethphase.py -c 1,2,6,10,11 \
+    python utils/call_dmr_dss_nanomethphase.py -c 1,2,6,10,11 \
         -ca \${bed_hp1} \
         -co \${bed_hp2} \
         -o ./ \
