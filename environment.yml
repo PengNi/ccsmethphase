@@ -2,6 +2,7 @@ name: ccsmethphase  # date 20230612
 channels:
   - bioconda
   - pytorch
+  - nvidia
   - conda-forge
 dependencies:
   - python=3.10.11
