@@ -40,7 +40,7 @@ python utils/filter_call_mods_by_positions.py \
 python utils/eval_at_read_level.py \
     --unmethylated ${hc_neg_in_reads} \
     --methylated ${hc_pos_in_reads} \
-    --depth_cf -1 --prob_cf 0.66 \
+    --depth_cf -1 --prob_cf 0.33 \
     --result_file ${result_file}
 
 # clean tmp files
